@@ -26,45 +26,46 @@ KOOK是在添加元素的时候直接为元素添加click的事件，所以元�
 
 ```js
 let settingsButton = document.evaluate('/html/body/div[1]/div/div[2]/div/div[2]/div[2]/div/div'， document).iterateNext()
-let clicker = settingsButton.click
-settingsButton.click = function() {
-    clicker() // 先执行原先的代码
+settingsButton.onclick = function() {
+    // KOOK调用的时click，我们设置的是onclick，不会冲突，但是需要错一下时间
     // 下面为添加元素
-    let settingsTabList = document.evaluate('/html/body/div[1]/div/div[2]/div[2]/div/div[1]/div/div', document).iterateNext()
-    let groups = settingsTabList.getElementsByClassName("mask-setting-nav-group") // 获取所有的组
-    let newGroups = Array()
-    let clickers = Array()
-    for (let i = 0; i < groups.length; i++) {
-        if (i == 1) { // 你要添加分组的位置
-            let elements = Array()
-            elements.push(buildGroupElement("Better KOOK 设置", openSettingsPage))
-            elements.push(buildGroupElement("主题", openSettingsPage))
-            elements.push(buildGroupElement("插件", openSettingsPage))
-            elements.push(buildGroupElement("资源市场", openSettingsPage))
+    setTimeout(function() {
+        let settingsTabList = document.evaluate('/html/body/div[1]/div/div[2]/div[2]/div/div[1]/div/div', document).iterateNext()
+        let groups = settingsTabList.getElementsByClassName("mask-setting-nav-group") // 获取所有的组
+        let newGroups = Array()
+        let clickers = Array()
+        for (let i = 0; i < groups.length; i++) {
+            if (i == 1) { // 你要添加分组的位置
+                let elements = Array()
+                elements.push(buildGroupElement("Better KOOK 设置", openSettingsPage))
+                elements.push(buildGroupElement("主题", openSettingsPage))
+                elements.push(buildGroupElement("插件", openSettingsPage))
+                elements.push(buildGroupElement("资源市场", openSettingsPage))
+                for (let j = 0; j < elements.length; j++) {
+                    clickers.push(elements[j])
+                }
+                groups.push(buildGroup("BETTER KOOK", elements))
+            }
+            let elements = groups[i].getElementsByClassName("ask-nav-group-item")
             for (let j = 0; j < elements.length; j++) {
                 clickers.push(elements[j])
             }
-            groups.push(buildGroup("BETTER KOOK", elements))
+            groups.push(groups[i])
+            settingsTabList.removeChild(groups[i]) // 移除旧元素
         }
-        let elements = groups[i].getElementsByClassName("ask-nav-group-item")
-        for (let j = 0; j < elements.length; j++) {
-            clickers.push(elements[j])
+        for (let i = 0; i < newGroups.length; i++) {
+            settingsTabList.appendChild(newGroups[i]) // 重新添加元素
         }
-        groups.push(groups[i])
-        settingsTabList.removeChild(groups[i]) // 移除旧元素
-    }
-    for (let i = 0; i < newGroups.length; i++) {
-        settingsTabList.appendChild(newGroups[i]) // 重新添加元素
-    }
-    for (let i = 0; i < clickers.length; i++) { // 这一部分是让每个按钮点击前会清除其他元素的active状态
-        let elementClicker = clickers[i].click
-        clickers[i].click = function() {
-            for (let j = 0; j < clickers.length; j++) {
-                clickers[j].setAttribute("class", "mask-nav-group-item")
-                elementClicker()
+        for (let i = 0; i < clickers.length; i++) { // 这一部分是让每个按钮点击前会清除其他元素的active状态
+            let elementClicker = clickers[i].click
+            clickers[i].click = function() {
+                for (let j = 0; j < clickers.length; j++) {
+                    clickers[j].setAttribute("class", "mask-nav-group-item")
+                    elementClicker()
+                }
             }
         }
-    }
+    }, 1) // 使用timeout是因为加载界面时有一个延迟
     
 }
 
