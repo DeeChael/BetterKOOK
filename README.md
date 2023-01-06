@@ -101,4 +101,28 @@ function buildGroupElement(elementName, clickFunction) {
     return elementElement
 }
 ```
+## 一些接口的设想
+
+```js
+function getFriends() {
+    ... // 返回一个数组，里面是所有好友的id
+}
+    
+function getGuilds() {
+    ... // 返回一个数组，里面是所有加入服务器的id，如果有分组，则会再套一个数组，例如：[111, [222, 333], 444]
+}
+    
+function getFriendRequests() {
+    ... // 返回一个数组，里面是所有好友请求的请求id
+}
+
+// 事件
+function registerListener(eventName, listenerFunc) { // 第一个参数为事件名称，第二个参数为监听器
+    ...
+}
+// 事件监听器举例
+function onMessage(event) {
+    ... // 使用 registerListener("message", onMessage) 注册，event参数为一个MessageEvent对象，MessageEvent的内容会在以后设计
+}
+```
 
