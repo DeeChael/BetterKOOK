@@ -2,6 +2,79 @@
 
 因为我不会javascript，所以有些东西我可能讲的不对，讲的仅仅只是个思路，并非完全可行。
 
+## 试用我制作的测试用JS
+
+先把测试用的betterkook.js下载下来，然后找到你的KOOK安装目录，其结构应该像这样：
+
+```shell
+app-版本号 // 如果符合该格式的文件夹有多个，选择版本号最新的那个
+packages
+app.ico
+KOOK.exe
+Update.exe
+...
+```
+
+然后进入这个位置：
+
+```shell
+app-版本号/resources/app/webapp/build
+```
+
+然后使用Visual Studio Code打开index.htm并格式化一下代码，然后在head中所有script下面添加一行：
+
+```html
+<script defer="defer" src="/app/static/js/betterkook.js"></script>
+```
+
+整个head应该会是这个样子：
+
+```html
+<head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" id="favicon" href="/app/favicon.ico" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="keywords" content="/* 省略 */" />
+    <meta name="description" content="/* 省略 */" />
+    <meta property="og:site_name" content="KOOK" />
+    <meta property="og:image" content="https://www.kookapp.cn/favicon.ico" />
+    <meta property="og:image:type" content="image/ico" />
+    <meta name="theme-color" content="#46a5f7" />
+    <title>KOOK</title>
+    <script>/* 省略 */</script>
+    <script src="https://g.alicdn.com/AWSC/AWSC/awsc.js"></script>
+    <script src="/app/assets/lib/aes.js"></script>
+    <script src="/app/assets/lib/twemoji.12.1.5.min.js"></script>
+    <script src="/app/assets/lib/libamr-min.js"></script>
+    <script src="/app/assets/lib/pcmdata-2.0.0.min.js"></script>
+    <script src="/app/assets/lib/markdown-parse.0.0.10.js"></script>
+    <script src="/app/assets/lib/pinyin-pro.js"></script>
+    <script>/* 省略 */</script>
+    <script defer="defer" src="/app/static/js/511.ca200e06.js"></script>
+    <script defer="defer" src="/app/static/js/746.fa49afd1.js"></script>
+    <script defer="defer" src="/app/static/js/922.2712323c.js"></script>
+    <script defer="defer" src="/app/static/js/208.c13c6f42.js"></script>
+    <script defer="defer" src="/app/static/js/828.586b4610.js"></script>
+    <script defer="defer" src="/app/static/js/339.11e75af2.js"></script>
+    <script defer="defer" src="/app/static/js/index.86b523b4.js"></script>
+    <script defer="defer" src="/app/static/js/betterkook.js"></script> <!-- 你添加的应该在这个位置 -->
+    <link href="/app/static/css/511.df0aac1c.chunk.css" rel="stylesheet">
+    <link href="/app/static/css/299.6e986aa8.chunk.css" rel="stylesheet">
+    <link href="/app/static/css/208.7c80b43f.chunk.css" rel="stylesheet">
+    <link href="/app/static/css/339.54c4ba9b.chunk.css" rel="stylesheet">
+    <link href="/app/static/css/88.b015417e.chunk.css" rel="stylesheet">
+    <link href="/app/static/css/index.48223a00.chunk.css" rel="stylesheet">
+</head>
+```
+
+然后将下载好的betterkook.js放到这个位置：
+
+```shell
+app-版本号/resources/app/webapp/build/static/js/betterkook.js
+```
+
+然后重启你的KOOK客户端，等待几秒等BetterKOOK加载完成，打开设置应该能看到测试用的栏位。
+
 ## 关于修改元素
 
 KOOK是在添加元素的时候直接为元素添加click的事件，所以元素都没有加id，所以想要给特定元素修改内容只能使用xpath了。
