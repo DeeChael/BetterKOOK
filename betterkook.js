@@ -394,7 +394,6 @@ function buildGroupElement(elementName, clickFunction) {
     let elementElement = document.createElement('div')
     elementElement.setAttribute("class", "mask-nav-group-item")
     elementElement.onclick = function () {
-        elementElement.setAttribute("class", "mask-nav-group-item active")
         if (elementName == currentPage) { // 防止重复执行
             return
         }
@@ -467,6 +466,7 @@ function buildGroupElement(elementName, clickFunction) {
                             if (clickers[j])
                                 clickers[j].setAttribute("class", "mask-nav-group-item")
                         }
+                        clickers[i].setAttribute("class", "mask-nav-group-item active")
                         elementClicker()
                     }
                 }
