@@ -76,6 +76,7 @@ class TextWithSwitchFormItem extends FormItem {
         super()
         this.status = false
         this.divElement = document.createElement("div")
+        this.spanElement = document.createElement("span")
         this.divElement.setAttribute("class", "setting-form-item is-description column")
         this._resolveText(title, description)
         this._resolveSwitch(status)
@@ -98,9 +99,9 @@ class TextWithSwitchFormItem extends FormItem {
     }
 
     _resolveSwitch(status) {
-        let labelElement = document.createElement("div")
-        labelElement.setAttribute("class", "setting-form-input")
-        let spanElement = document.createElement("span")
+        let inputLabel = document.createElement("div")
+        inputLabel.setAttribute("class", "setting-form-input")
+        let spanElement = this.spanElement
         spanElement.setAttribute("class", "ui-switch switchery-small" + (status ? " checked" : ""))
         spanElement.setAttribute("data-tip", "")
         spanElement.setAttribute("data-for", "switch-tooltip-")
@@ -114,8 +115,21 @@ class TextWithSwitchFormItem extends FormItem {
         spanElement.appendChild(document.createElement("small"))
         spanElement.appendChild(inputElement)
         spanElement.appendChild(subSpanElement)
-        labelElement.appendChild(spanElement)
-        this.divElement.appendChild(labelElement)
+        inputLabel.appendChild(spanElement)
+        inputLabel.onclick = this._switch(this)
+        this.divElement.appendChild(inputLabel)
+    }
+
+    _switch(formSelf) {
+        return function(e) {
+            if (formSelf.status) {
+                formSelf.status = false
+                formSelf.spanElement.setAttribute("class", "ui-switch switchery-small") // 这个地方有bug，会空
+            } else {
+                formSelf.status = true
+                formSelf.spanElement.setAttribute("class", "ui-switch switchery-small checked") // 这个地方有bug，会空
+            }
+        }
     }
 
     asElement() {
@@ -477,5 +491,5 @@ function buildGroupElement(elementName, clickFunction) {
         if (settingsTabList !== null) {
             settingsButton.onclick()
         }
-    }, 10000);
+    }, 3000);
 })()
