@@ -74,7 +74,7 @@ class TextWithSwitchFormItem extends FormItem {
 
     constructor(title, description = null, status = false) {
         super()
-        this.status = false
+        this.status = status
         this.divElement = document.createElement("div")
         this.spanElement = document.createElement("span")
         this.divElement.setAttribute("class", "setting-form-item is-description column")
